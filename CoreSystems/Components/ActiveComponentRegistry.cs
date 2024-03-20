@@ -8,20 +8,36 @@ namespace secondgame.CoreSystems.Components
 {
     public static class ActiveComponentRegistry
     {
+        /// <summary>
+        /// A dictionary of all active components across every entity.
+        /// This dictionary stores a HashSet of components for each component type, so that the set of all of one type of component can be easily retrieved.
+        /// </summary>
         public static Dictionary<Type, HashSet<Component>> ActiveComponents = new Dictionary<Type, HashSet<Component>>();
 
+        /// <summary>
+        /// Adds a component to the registry. Typically called when a component is added to an entity.
+        /// </summary>
+        /// <param name="component">The component to be added.</param>
         public static void AddComponent(Component component)
         {
             // retrieve the hash set of all components of the addee's type, and add the addee to the hash set.
             GetSetOfComponentsOfType(typeof(Component)).Add(component);
         }
 
+        /// <summary>
+        /// Removes a component from the registry. Typically called when a component is removed from an entity.
+        /// </summary>
+        /// <param name="component">The component to be removed.</param>
         public static void RemoveComponent(Component component)
         {
             // retrieve the hash set of all components of the addee's type, and remove the addee from the hash set.
             GetSetOfComponentsOfType(typeof(Component)).Remove(component);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="entity"></param>
         public static void RemoveComponentsFrom(Entity entity)
         {
             // iterate through every component the entity has.

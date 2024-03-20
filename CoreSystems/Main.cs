@@ -47,14 +47,14 @@ namespace secondgame.CoreSystems
         {
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            FMODStudioSystem.update();
+            FMODStudioSystem.update(); // maybe move this to SoundSystem in future if something else needs updated every frame
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             if (time % 120 == 0)
             {
-                PlaySound("event:/testsound");
+                PlaySound("testsound");
             }
             time++;
             position.X = time * 3f;
