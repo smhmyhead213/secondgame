@@ -35,9 +35,9 @@ namespace secondgame.CoreSystems.Components
         }
 
         /// <summary>
-        /// 
+        /// Removes all components from an Entity.
         /// </summary>
-        /// <param name="entity"></param>
+        /// <param name="entity">The entity to remove components from.</param>
         public static void RemoveComponentsFrom(Entity entity)
         {
             // iterate through every component the entity has.
@@ -48,6 +48,11 @@ namespace secondgame.CoreSystems.Components
             }
         }
 
+        /// <summary>
+        /// Returns a hash set containing all active components of a certain type.
+        /// </summary>
+        /// <param name="componentType">The type of component to retrieve.</param>
+        /// <returns></returns>
         public static HashSet<Component> GetSetOfComponentsOfType(Type componentType)
         {
             // check if the dictionary of active components contains a hash set of the given type.

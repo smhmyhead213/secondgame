@@ -11,9 +11,5 @@ namespace secondgame.CoreSystems.Components
         public float Lifetime;
         public float TimeSinceSpawn;
         // maybe add capability for pausing in the future?
-        public override void Update()
-        {
-            
-        }
     }
 }

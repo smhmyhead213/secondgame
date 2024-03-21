@@ -1,5 +1,6 @@
 ﻿global using static secondgame.CoreSystems.Main;
 global using static secondgame.CoreSystems.SoundSystems.SoundSystem;
+global using static secondgame.Utilities.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -10,7 +11,7 @@ namespace secondgame.CoreSystems
     public class Main : Game
     {
         public GraphicsDeviceManager Graphics;
-        public SpriteBatch SpriteBatch;
+        public static SpriteBatch MainSpriteBatch;
         public static int Width;
         public static int Height;
         public static float DeltaTime;
@@ -26,7 +27,11 @@ namespace secondgame.CoreSystems
             Graphics.IsFullScreen = true;
             Graphics.HardwareModeSwitch = false;
         }
-
+        public static Main MainInstance
+        {
+            get;
+            private set;
+        }
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
@@ -37,7 +42,7 @@ namespace secondgame.CoreSystems
 
         protected override void LoadContent()
         {
-            SpriteBatch = new SpriteBatch(GraphicsDevice);
+            MainSpriteBatch = new SpriteBatch(GraphicsDevice);
 
             SetUpFMOD();            
             // TODO: use this.Content to load your game content here
@@ -68,15 +73,6 @@ namespace secondgame.CoreSystems
             GraphicsDevice.Clear(Color.LightGray);
 
             // TODO: Add your drawing code here
-            int frames = 8;
-            int frameToUse = time % frames;
-            Texture2D texture = Content.Load<Texture2D>("PlayerAssets/maincharacter");
-            int frameHeight = texture.Height / frames;
-            int startHeight = frameToUse * frameHeight;
-            SpriteBatch.Begin();
-            SpriteBatch.Draw(texture, position, new Rectangle(0, startHeight, texture.Width, frameHeight), Color.White, 0, new Vector2(texture.Width / 2f, -frameHeight / 2f), new Vector2(0.3f), SpriteEffects.None, 0);
-            SpriteBatch.End();
-
 
             base.Draw(gameTime);
         }

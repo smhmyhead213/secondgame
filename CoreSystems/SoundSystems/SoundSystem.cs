@@ -92,7 +92,7 @@ namespace secondgame.CoreSystems.SoundSystems
         }
 
         /// <summary>
-        /// A method that plays a sound given the name of the event that contains it.
+        /// Plays a sound given the name of the event that contains it.
         /// </summary>
         /// <param name="soundName">The name of the event containing the sound.</param>
 

@@ -28,5 +28,13 @@ namespace secondgame.CoreSystems
             ActiveComponentRegistry.RemoveComponentsFrom(this);
             EntityManager.ActiveEntities.Remove(this);
         }
+
+        /// <summary>
+        /// Every entity should override this method and add all of its components here.
+        /// </summary>
+        public virtual void Spawn()
+        {
+
+        }
     }
 }

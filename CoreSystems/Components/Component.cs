@@ -12,6 +12,5 @@ namespace secondgame.CoreSystems.Components
     public abstract class Component
     {
         public Entity Owner;
-        public abstract void Update();
     }
 }
