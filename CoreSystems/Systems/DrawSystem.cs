@@ -13,37 +13,48 @@ namespace secondgame.CoreSystems.Systems
 {
     public class DrawSystem : System
     {
+        public DrawComponent[] DrawComponents;
         public override void Update()
         {
             IEnumerable<DrawComponent> componentsToUpdate = EntityManager.Query<DrawComponent>();
 
             // sort components in order of layer
-            DrawComponent[] drawComponents = componentsToUpdate.ToArray<DrawComponent>();
+            DrawComponents = componentsToUpdate.ToArray<DrawComponent>();
 
             // sort in order of layer
-            for (int i = 0; i < drawComponents.Length - 1; i++)
+            for (int i = 0; i < DrawComponents.Length - 1; i++)
             {
                 for (int j = i + 1; j > 0; j--)
                 {
                     // Swap if the element at j - 1 position is greater than the element at j position
-                    if (drawComponents[j - 1].DrawLayer > drawComponents[j].DrawLayer)
+                    if (DrawComponents[j - 1].DrawLayer > DrawComponents[j].DrawLayer)
                     {
-                        int temp = (int)drawComponents[j - 1].DrawLayer;
-                        drawComponents[j - 1] = drawComponents[j];
-                        drawComponents[j].DrawLayer = (DrawLayer)temp;
+                        int temp = (int)DrawComponents[j - 1].DrawLayer;
+                        DrawComponents[j - 1] = DrawComponents[j];
+                        DrawComponents[j].DrawLayer = (DrawLayer)temp;
                     }
                 }
             }
+            
+            foreach (DrawComponent drawComponent in DrawComponents)
+            {
+                // calculate which frame to use this frame
+                drawComponent.Timer += DeltaTime;
+                drawComponent.FrameCounter = (int)(drawComponent.FramesPerSecond * drawComponent.Timer) % drawComponent.Frames;
+            }
+        }
 
+        public void Draw()
+        {
             MainSpriteBatch.Begin();
 
             // to do: add auto-incrementing of FrameCounter and shader support
-            foreach (DrawComponent component in drawComponents)
-            {               
+            foreach (DrawComponent component in DrawComponents)
+            {
                 Texture2D spriteSheet = component.SpriteSheet;
                 int frameHeight = component.SpriteSheet.Height / component.Frames;
                 int startHeight = component.FrameCounter * frameHeight;
-                MainSpriteBatch.Draw(component.SpriteSheet, component.Position, new Rectangle(0, startHeight, spriteSheet.Width, frameHeight), Color.White, 0, new Vector2(spriteSheet.Width / 2f, -frameHeight / 2f), new Vector2(0.3f), SpriteEffects.None, 0);                
+                MainSpriteBatch.Draw(component.SpriteSheet, component.Position, new Rectangle(0, startHeight, spriteSheet.Width, frameHeight), Color.White, 0, new Vector2(spriteSheet.Width / 2f, -frameHeight / 2f), new Vector2(0.3f), SpriteEffects.None, 0);
             }
 
             MainSpriteBatch.End();

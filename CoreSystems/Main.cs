@@ -1,9 +1,11 @@
 ﻿global using static secondgame.CoreSystems.Main;
 global using static secondgame.CoreSystems.SoundSystems.SoundSystem;
 global using static secondgame.Utilities.Utilities;
+using System.Numerics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using secondgame.CoreSystems.GameStates;
 using System.Collections.Generic;
 
 namespace secondgame.CoreSystems
@@ -16,10 +18,12 @@ namespace secondgame.CoreSystems
         public static int Height;
         public static float DeltaTime;
         public int time;
-        public Vector2 position;
-        
+        public System.Numerics.Vector2 position;
+
+        public static GameState GameState;
         public Main()
         {
+            MainInstance = this;
             Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -36,7 +40,13 @@ namespace secondgame.CoreSystems
         {
             // TODO: Add your initialization logic here
             base.Initialize();
-            position = new Vector2(0, Graphics.PreferredBackBufferHeight / 2f);
+            position = new System.Numerics.Vector2(900, Graphics.PreferredBackBufferHeight / 2f);
+            GameState = new PlayingState();
+            
+            Entity test = new Entity();
+            test.AddComponent(new MovementComponent(position, new System.Numerics.Vector2(1f, 0f), new System.Numerics.Vector2(0f, 0f)));
+            test.AddComponent(new DrawComponent("PlayerAssets/maincharacter", 8, 1, DrawLayer.Player, position));
+            test.Spawn();
             
         }
 
@@ -54,15 +64,11 @@ namespace secondgame.CoreSystems
 
             FMODStudioSystem.update(); // maybe move this to SoundSystem in future if something else needs updated every frame
 
+            GameState.Update();
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            if (time % 120 == 0)
-            {
-                PlaySound("testsound");
-            }
-            time++;
-            position.X = time * 3f;
+            
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -71,6 +77,8 @@ namespace secondgame.CoreSystems
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.LightGray);
+
+            GameState.Draw();
 
             // TODO: Add your drawing code here
 

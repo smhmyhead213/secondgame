@@ -19,5 +19,25 @@ namespace secondgame.CoreSystems.Components
             Velocity = new Vector2();
             Acceleration = new Vector2();
         }
+        public MovementComponent(Vector2 position, Vector2 velocity, Vector2 acceleration)
+        {
+            Position = position;
+            Velocity = velocity;
+            Acceleration = acceleration;
+        }
+        public void SetPosition(Vector2 position)
+        {
+            Position = position;
+        }
+
+        public void SetVelocity(Vector2 velocity)
+        {
+            Velocity = velocity;
+        }
+
+        public void SetAcceleration(Vector2 acceleration)
+        {
+            Acceleration = acceleration;
+        }
     }
 }
