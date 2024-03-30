@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace secondgame.CoreSystems.Systems
 {
-    public class LifetimeSystem : System
+    public class LifetimeSystem : BaseSystem
     {
         public override void Update()
         {

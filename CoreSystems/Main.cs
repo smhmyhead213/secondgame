@@ -14,6 +14,7 @@ namespace secondgame.CoreSystems
     {
         public GraphicsDeviceManager Graphics;
         public static SpriteBatch MainSpriteBatch;
+        public static Camera MainCamera;
         public static int Width;
         public static int Height;
         public static float DeltaTime;
@@ -42,10 +43,10 @@ namespace secondgame.CoreSystems
             base.Initialize();
             position = new System.Numerics.Vector2(900, Graphics.PreferredBackBufferHeight / 2f);
             GameState = new PlayingState();
-            
+            MainCamera = new Camera();
             Entity test = new Entity();
-            test.AddComponent(new MovementComponent(position, new System.Numerics.Vector2(1f, 0f), new System.Numerics.Vector2(0f, 0f)));
-            test.AddComponent(new DrawComponent("PlayerAssets/maincharacter", 8, 1, DrawLayer.Player, position));
+            test.AddComponent(new MovementComponent(position, new System.Numerics.Vector2(10f, 0f), new System.Numerics.Vector2(1f, 0f)));
+            test.AddComponent(new DrawComponent("Assets/PlayerAssets/maincharacter", 8, 10, DrawLayer.Player, position, true));
             test.Spawn();
             
         }
@@ -54,7 +55,7 @@ namespace secondgame.CoreSystems
         {
             MainSpriteBatch = new SpriteBatch(GraphicsDevice);
 
-            SetUpFMOD();            
+            SetUpFMOD();
             // TODO: use this.Content to load your game content here
         }
 

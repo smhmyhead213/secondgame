@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace secondgame.CoreSystems.Systems
 {
-    public abstract class System
+    public abstract class BaseSystem
     {
         public abstract void Update(); 
     }

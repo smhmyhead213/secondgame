@@ -19,14 +19,15 @@ namespace secondgame.CoreSystems.Components
         public DrawLayer DrawLayer;
         public Vector2 Position;
         public float Timer;
-
-        public DrawComponent(string spriteSheet, int frames, int fps, DrawLayer drawLayer, Vector2 position)
+        public bool TakePositionFromMovementComponent;
+        public DrawComponent(string spriteSheet, int frames, int fps, DrawLayer drawLayer, Vector2 position, bool posFromMovementComponent)
         { 
             SpriteSheet = MainInstance.Content.Load<Texture2D>(spriteSheet);
             Frames = frames;
             FramesPerSecond = fps;
             DrawLayer = drawLayer;
             Position = position;
+            TakePositionFromMovementComponent = posFromMovementComponent;
         }
     }
 

@@ -23,6 +23,9 @@ namespace secondgame.CoreSystems
         public Camera()
         {
             Viewport = new(0, 0, Width, Height);
+            ScreenMatrix = Matrix4x4.Identity;
+            TranslationMatrix = Matrix4x4.Identity;
+            ZoomMatrix = Matrix4x4.Identity;
         }
 
         public void UpdateMatrices()

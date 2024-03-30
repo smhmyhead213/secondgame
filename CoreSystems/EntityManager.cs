@@ -16,10 +16,10 @@ namespace secondgame.CoreSystems
             foreach (Entity entity in ActiveEntities)
             {
                 foreach (Component component in entity.Components)
-                { 
-                    if (component.GetType() == typeof(TComponentType))
+                {
+                    if (component is TComponentType casted)
                     {
-                        yield return component;
+                        yield return casted;
                     }
                 }
             }

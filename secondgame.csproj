@@ -16,9 +16,6 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\PlayerAssets\" />
-  </ItemGroup>
-  <ItemGroup>
     <None Update="Content\Sounds\Master.bank">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using secondgame.Utilities;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace secondgame.CoreSystems.Systems
 {
-    public class DrawSystem : System
+    public class DrawSystem : BaseSystem
     {
         public DrawComponent[] DrawComponents;
         public override void Update()
@@ -38,15 +37,24 @@ namespace secondgame.CoreSystems.Systems
             
             foreach (DrawComponent drawComponent in DrawComponents)
             {
+                if (drawComponent.TakePositionFromMovementComponent)
+                {
+                    drawComponent.Position = drawComponent.Owner.QueryComponent<MovementComponent>().Position;
+                }
+
                 // calculate which frame to use this frame
+
                 drawComponent.Timer += DeltaTime;
                 drawComponent.FrameCounter = (int)(drawComponent.FramesPerSecond * drawComponent.Timer) % drawComponent.Frames;
             }
+
+            MainCamera.TranslateCamera(new System.Numerics.Vector2(0f, 70f));
+            MainCamera.UpdateMatrices();
         }
 
         public void Draw()
         {
-            MainSpriteBatch.Begin();
+            MainSpriteBatch.Begin(transformMatrix: MainCamera.Matrix);
 
             // to do: add auto-incrementing of FrameCounter and shader support
             foreach (DrawComponent component in DrawComponents)

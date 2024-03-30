@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace secondgame.CoreSystems.Systems
 {
-    public class MovementSystem : System
+    public class MovementSystem : BaseSystem
     {
         public override void Update()
         {
