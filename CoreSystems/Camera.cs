@@ -34,7 +34,7 @@ namespace secondgame.CoreSystems
             Viewport = new(0, 0, Width, Height);
             TranslationMatrix = Matrix4x4.Identity;
             ZoomMatrix = Matrix4x4.Identity;
-            RotationMatrix = Matrix4x4.Identity;
+            RotationMatrix = Matrix4x4.CreateRotationZ(PI / 2);
             Position = new Vector2(0, 0);
             Origin = new Vector2(0, 0);
         }

@@ -58,50 +58,56 @@ namespace secondgame.CoreSystems.Systems
                 drawComponent.FrameCounter = (int)(drawComponent.FramesPerSecond * drawComponent.Timer) % drawComponent.Frames;
             }
 
-            float cameraSpeed = 2f;
-            bool zooming = false;
+            #region Camera Test
+            //float cameraSpeed = 2f;
+            //bool zooming = false;
 
-            if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.W))
-            {
-                MainCamera.MoveCameraBy(new System.Numerics.Vector2(0f, cameraSpeed));
-            }
+            //if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.W))
+            //{
+            //    MainCamera.MoveCameraBy(new System.Numerics.Vector2(0f, cameraSpeed));
+            //}
 
-            if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.S))
-            {
-                MainCamera.MoveCameraBy(new System.Numerics.Vector2(0f, -cameraSpeed));
-            }
+            //if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.S))
+            //{
+            //    MainCamera.MoveCameraBy(new System.Numerics.Vector2(0f, -cameraSpeed));
+            //}
 
-            if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.A))
-            {
-                MainCamera.MoveCameraBy(new System.Numerics.Vector2(cameraSpeed, 0f));
-            }
+            //if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.A))
+            //{
+            //    MainCamera.MoveCameraBy(new System.Numerics.Vector2(cameraSpeed, 0f));
+            //}
 
-            if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.D))
-            {
-                MainCamera.MoveCameraBy(new System.Numerics.Vector2(-cameraSpeed, 0f));
-            }
+            //if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.D))
+            //{
+            //    MainCamera.MoveCameraBy(new System.Numerics.Vector2(-cameraSpeed, 0f));
+            //}
 
-            if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.R))
-            {
-                MainCamera.ResetMatrices();
-                scale = 1f;
-            }
+            //if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.R))
+            //{
+            //    MainCamera.ResetMatrices();
+            //    scale = 1f;
+            //}
 
-            if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.O))
-            {
-                scale = scale + 0.01f;
-                zooming = true;
-            }
+            //if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.O))
+            //{
+            //    scale = scale + 0.01f;
+            //    zooming = true;
+            //}
 
-            if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.P))
-            {
-                scale = scale - 0.01f;
-                zooming = true;
-            }
+            //if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.P))
+            //{
+            //    scale = scale - 0.01f;
+            //    zooming = true;
+            //}
 
-            if (zooming)
-                MainCamera.SetZoom(scale, ScreenCentre());
-
+            //if (zooming)
+            //    MainCamera.SetZoom(scale, ScreenCentre());
+            //else
+            //{
+            //    MainCamera.ResetZoom();
+            //    MainCamera.Origin = System.Numerics.Vector2.Zero;
+            //}
+            #endregion 
             MainCamera.UpdateMatrices();
         }
         public void Draw()
