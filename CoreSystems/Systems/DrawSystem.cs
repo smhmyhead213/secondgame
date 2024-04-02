@@ -7,12 +7,22 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using secondgame.Utilities;
+using SharpDX.WIC;
+using SharpDX.MediaFoundation;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace secondgame.CoreSystems.Systems
 {
     public class DrawSystem : BaseSystem
     {
         public DrawComponent[] DrawComponents;
+        public float scale;
+
+        public DrawSystem()
+        {
+            scale = 1f;
+        }
+
         public override void Update()
         {
             IEnumerable<DrawComponent> componentsToUpdate = EntityManager.Query<DrawComponent>();
@@ -48,13 +58,59 @@ namespace secondgame.CoreSystems.Systems
                 drawComponent.FrameCounter = (int)(drawComponent.FramesPerSecond * drawComponent.Timer) % drawComponent.Frames;
             }
 
-            MainCamera.TranslateCamera(new System.Numerics.Vector2(0f, 70f));
+            float cameraSpeed = 2f;
+            bool zooming = false;
+
+            if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.W))
+            {
+                MainCamera.MoveCameraBy(new System.Numerics.Vector2(0f, cameraSpeed));
+            }
+
+            if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.S))
+            {
+                MainCamera.MoveCameraBy(new System.Numerics.Vector2(0f, -cameraSpeed));
+            }
+
+            if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.A))
+            {
+                MainCamera.MoveCameraBy(new System.Numerics.Vector2(cameraSpeed, 0f));
+            }
+
+            if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.D))
+            {
+                MainCamera.MoveCameraBy(new System.Numerics.Vector2(-cameraSpeed, 0f));
+            }
+
+            if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.R))
+            {
+                MainCamera.ResetMatrices();
+                scale = 1f;
+            }
+
+            if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.O))
+            {
+                scale = scale + 0.01f;
+                zooming = true;
+            }
+
+            if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.P))
+            {
+                scale = scale - 0.01f;
+                zooming = true;
+            }
+
+            if (zooming)
+                MainCamera.SetZoom(scale, ScreenCentre());
+
             MainCamera.UpdateMatrices();
         }
-
         public void Draw()
         {
             MainSpriteBatch.Begin(transformMatrix: MainCamera.Matrix);
+
+            Texture2D background = MainInstance.Content.Load<Texture2D>("Assets/testbackground");
+            Vector2 offsetington = new Vector2(background.Width / 2f, background.Height / 2f);
+            MainSpriteBatch.Draw(background, System.Numerics.Vector2.Zero, null, Color.White, 0, offsetington, Vector2.One * 10f, SpriteEffects.None, 0);
 
             // to do: add auto-incrementing of FrameCounter and shader support
             foreach (DrawComponent component in DrawComponents)
@@ -62,7 +118,9 @@ namespace secondgame.CoreSystems.Systems
                 Texture2D spriteSheet = component.SpriteSheet;
                 int frameHeight = component.SpriteSheet.Height / component.Frames;
                 int startHeight = component.FrameCounter * frameHeight;
-                MainSpriteBatch.Draw(component.SpriteSheet, component.Position, new Rectangle(0, startHeight, spriteSheet.Width, frameHeight), Color.White, 0, new Vector2(spriteSheet.Width / 2f, -frameHeight / 2f), new Vector2(0.3f), SpriteEffects.None, 0);
+                Vector2 offset = new Vector2(spriteSheet.Width / 2f, frameHeight / 2f);
+                //offset = Vector2.Zero;
+                MainSpriteBatch.Draw(component.SpriteSheet, component.Position, new Rectangle(0, startHeight, spriteSheet.Width, frameHeight), Color.White, 0, offset, Vector2.One * 0.3f, SpriteEffects.None, 0);
             }
 
             MainSpriteBatch.End();

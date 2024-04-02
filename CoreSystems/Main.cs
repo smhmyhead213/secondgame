@@ -1,6 +1,8 @@
 ﻿global using static secondgame.CoreSystems.Main;
 global using static secondgame.CoreSystems.SoundSystems.SoundSystem;
+global using static secondgame.CoreSystems.InputSystem;
 global using static secondgame.Utilities.Utilities;
+global using static System.MathF;
 using System.Numerics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -41,11 +43,13 @@ namespace secondgame.CoreSystems
         {
             // TODO: Add your initialization logic here
             base.Initialize();
-            position = new System.Numerics.Vector2(900, Graphics.PreferredBackBufferHeight / 2f);
+            Width = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            Height = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            position = System.Numerics.Vector2.Zero;
             GameState = new PlayingState();
             MainCamera = new Camera();
             Entity test = new Entity();
-            test.AddComponent(new MovementComponent(position, new System.Numerics.Vector2(10f, 0f), new System.Numerics.Vector2(1f, 0f)));
+            test.AddComponent(new MovementComponent(position, new System.Numerics.Vector2(0f, 0f), new System.Numerics.Vector2(0f, 0f)));
             test.AddComponent(new DrawComponent("Assets/PlayerAssets/maincharacter", 8, 10, DrawLayer.Player, position, true));
             test.Spawn();
             
@@ -62,6 +66,8 @@ namespace secondgame.CoreSystems
         protected override void Update(GameTime gameTime)
         {
             DeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            UpdateInputSystem();
 
             FMODStudioSystem.update(); // maybe move this to SoundSystem in future if something else needs updated every frame
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,6 +9,7 @@ namespace secondgame.Utilities
 {
     public static class Utilities
     {
+        public static Vector2 ScreenCentre() => new Vector2(Width / 2, Height / 2);
         public static int[] InsertionSort(int[] inputArray)
         {
             for (int i = 0; i < inputArray.Length - 1; i++)
