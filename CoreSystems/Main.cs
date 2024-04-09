@@ -3,12 +3,14 @@ global using static secondgame.CoreSystems.SoundSystems.SoundSystem;
 global using static secondgame.CoreSystems.InputSystem;
 global using static secondgame.Utilities.Utilities;
 global using static System.MathF;
-using System.Numerics;
+global using static secondgame.Drawing.SpriteBatchWrapper;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using secondgame.CoreSystems.GameStates;
 using System.Collections.Generic;
+using secondgame.Drawing;
+using secondgame.UI;
 
 namespace secondgame.CoreSystems
 {
@@ -22,7 +24,8 @@ namespace secondgame.CoreSystems
         public static float DeltaTime;
         public int time;
         public System.Numerics.Vector2 position;
-
+        public static AssetRegistry Assets;
+        
         public static GameState GameState;
         public Main()
         {
@@ -46,11 +49,13 @@ namespace secondgame.CoreSystems
             Width = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             Height = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             position = System.Numerics.Vector2.Zero;
+            Assets = new AssetRegistry();
             GameState = new PlayingState();
             MainCamera = new Camera();
+            MenuManager.Initialise();
             Entity test = new Entity();
             test.AddComponent(new MovementComponent(position, new System.Numerics.Vector2(0f, 0f), new System.Numerics.Vector2(0f, 0f)));
-            test.AddComponent(new DrawComponent("Assets/PlayerAssets/maincharacter", 8, 10, DrawLayer.Player, position, true));
+            test.AddComponent(new DrawComponent("maincharacter", 8, 10, DrawLayer.Player, position, true));
             test.Spawn();
             
         }
@@ -72,6 +77,8 @@ namespace secondgame.CoreSystems
             FMODStudioSystem.update(); // maybe move this to SoundSystem in future if something else needs updated every frame
 
             GameState.Update();
+
+            MenuManager.ManageMenus();
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();

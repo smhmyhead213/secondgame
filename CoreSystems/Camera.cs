@@ -34,7 +34,7 @@ namespace secondgame.CoreSystems
             Viewport = new(0, 0, Width, Height);
             TranslationMatrix = Matrix4x4.Identity;
             ZoomMatrix = Matrix4x4.Identity;
-            RotationMatrix = Matrix4x4.CreateRotationZ(PI / 2);
+            RotationMatrix = Matrix4x4.Identity;
             Position = new Vector2(0, 0);
             Origin = new Vector2(0, 0);
         }
@@ -53,6 +53,10 @@ namespace secondgame.CoreSystems
         public void SetCameraPositon(Vector2 position)
         {
             Position = position;
+        }
+        public void SetRotation(float radians)
+        {
+            RotationMatrix = Matrix4x4.CreateRotationZ(radians);
         }
         public void SetZoom(float zoomFactor)
         {

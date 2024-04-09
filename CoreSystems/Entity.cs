@@ -22,14 +22,13 @@ namespace secondgame.CoreSystems
             Components.Remove(component);
             ActiveComponentRegistry.RemoveComponent(component);
         }
-
         public TComponentType QueryComponent<TComponentType>() where TComponentType : Component
         {
-            foreach (TComponentType component in Components)
+            foreach (Component component in Components)
             {
-                if (component.GetType() == typeof(TComponentType))
+                if (component is TComponentType casted)
                 {
-                    return component;
+                    return casted;
                 }
             }
 
@@ -66,7 +65,7 @@ namespace secondgame.CoreSystems
                 throw new Exception("Cannot set the velocity of an entity without a MovementComponent.");
             }
         }
-        public void SetAccleration(Vector2 acceleration)
+        public void SetAcceleration(Vector2 acceleration)
         {
             MovementComponent movementComponent = QueryComponent<MovementComponent>();
             if (movementComponent != null)

@@ -58,56 +58,7 @@ namespace secondgame.CoreSystems.Systems
                 drawComponent.FrameCounter = (int)(drawComponent.FramesPerSecond * drawComponent.Timer) % drawComponent.Frames;
             }
 
-            #region Camera Test
-            //float cameraSpeed = 2f;
-            //bool zooming = false;
-
-            //if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.W))
-            //{
-            //    MainCamera.MoveCameraBy(new System.Numerics.Vector2(0f, cameraSpeed));
-            //}
-
-            //if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.S))
-            //{
-            //    MainCamera.MoveCameraBy(new System.Numerics.Vector2(0f, -cameraSpeed));
-            //}
-
-            //if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.A))
-            //{
-            //    MainCamera.MoveCameraBy(new System.Numerics.Vector2(cameraSpeed, 0f));
-            //}
-
-            //if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.D))
-            //{
-            //    MainCamera.MoveCameraBy(new System.Numerics.Vector2(-cameraSpeed, 0f));
-            //}
-
-            //if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.R))
-            //{
-            //    MainCamera.ResetMatrices();
-            //    scale = 1f;
-            //}
-
-            //if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.O))
-            //{
-            //    scale = scale + 0.01f;
-            //    zooming = true;
-            //}
-
-            //if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.P))
-            //{
-            //    scale = scale - 0.01f;
-            //    zooming = true;
-            //}
-
-            //if (zooming)
-            //    MainCamera.SetZoom(scale, ScreenCentre());
-            //else
-            //{
-            //    MainCamera.ResetZoom();
-            //    MainCamera.Origin = System.Numerics.Vector2.Zero;
-            //}
-            #endregion 
+            CameraTest();
             MainCamera.UpdateMatrices();
         }
         public void Draw()
@@ -121,15 +72,74 @@ namespace secondgame.CoreSystems.Systems
             // to do: add auto-incrementing of FrameCounter and shader support
             foreach (DrawComponent component in DrawComponents)
             {
-                Texture2D spriteSheet = component.SpriteSheet;
-                int frameHeight = component.SpriteSheet.Height / component.Frames;
+                Texture2D spriteSheet = component.SpriteSheet.Asset;
+                int frameHeight = spriteSheet.Height / component.Frames;
                 int startHeight = component.FrameCounter * frameHeight;
                 Vector2 offset = new Vector2(spriteSheet.Width / 2f, frameHeight / 2f);
                 //offset = Vector2.Zero;
-                MainSpriteBatch.Draw(component.SpriteSheet, component.Position, new Rectangle(0, startHeight, spriteSheet.Width, frameHeight), Color.White, 0, offset, Vector2.One * 0.3f, SpriteEffects.None, 0);
+                MainSpriteBatch.Draw(component.SpriteSheet.Asset, component.Position, new Rectangle(0, startHeight, spriteSheet.Width, frameHeight), Color.White, 0, offset, Vector2.One * 0.3f, SpriteEffects.None, 0);
             }
 
             MainSpriteBatch.End();
+        }
+
+        public void CameraTest()
+        {
+            #region Camera Test
+            float cameraSpeed = 2f;
+            bool zooming = false;
+
+            if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.W))
+            {
+                MainCamera.MoveCameraBy(new System.Numerics.Vector2(0f, cameraSpeed));
+            }
+
+            if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.S))
+            {
+                MainCamera.MoveCameraBy(new System.Numerics.Vector2(0f, -cameraSpeed));
+            }
+
+            if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.A))
+            {
+                MainCamera.MoveCameraBy(new System.Numerics.Vector2(cameraSpeed, 0f));
+            }
+
+            if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.D))
+            {
+                MainCamera.MoveCameraBy(new System.Numerics.Vector2(-cameraSpeed, 0f));
+            }
+
+            if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.R))
+            {
+                MainCamera.ResetMatrices();
+                scale = 1f;
+            }
+
+            if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.O))
+            {
+                scale = scale + 0.01f;
+                zooming = true;
+            }
+
+            if (IsKeyPressed(Microsoft.Xna.Framework.Input.Keys.P))
+            {
+                scale = scale - 0.01f;
+                zooming = true;
+            }
+
+            if (scale <= 0f)
+            {
+                scale = 0.01f;
+            }
+
+            if (zooming)
+                MainCamera.SetZoom(scale, ScreenCentre());
+            else
+            {
+                MainCamera.ResetZoom();
+                MainCamera.Origin = System.Numerics.Vector2.Zero;
+            }
+            #endregion
         }
     }
 }

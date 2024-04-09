@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 using System.Numerics;
 using Microsoft.Xna.Framework.Graphics;
 using System.Security.Cryptography.X509Certificates;
+using secondgame.Drawing;
 
 namespace secondgame.CoreSystems.Components
 {
     public class DrawComponent : Component
     {
-        public Texture2D SpriteSheet;
+        public ManagedTexture SpriteSheet;
         public int Frames; // number of frames in spritesheet
         public int FramesPerSecond;
         public int FrameCounter;
@@ -22,7 +23,7 @@ namespace secondgame.CoreSystems.Components
         public bool TakePositionFromMovementComponent;
         public DrawComponent(string spriteSheet, int frames, int fps, DrawLayer drawLayer, Vector2 position, bool posFromMovementComponent)
         { 
-            SpriteSheet = MainInstance.Content.Load<Texture2D>(spriteSheet);
+            SpriteSheet = new ManagedTexture(Assets.GetTexture(spriteSheet));
             Frames = frames;
             FramesPerSecond = fps;
             DrawLayer = drawLayer;
